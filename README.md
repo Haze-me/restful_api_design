@@ -49,7 +49,7 @@ source venv/bin/activate
    python manage.py migrate
    ```
 
-5. Create a superuser (optional):
+5. Create a superuser (optional): to access Admin panal http://localhost:8000/admin/
    ```bash
    python manage.py createsuperuser
    ```
@@ -58,7 +58,6 @@ source venv/bin/activate
    python manage.py runserver
    ```
 
-The API will be available at http://localhost:8000/api/
 
 ## API Documentation:
 After starting the server, access the interactive documentation:
