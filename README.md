@@ -19,6 +19,7 @@ Before you begin, ensure you have the following installed:
 
 1. Clone repo
 git clone https://github.com/Haze-me/restful_api_design.git
+
 cd AIPROJECT
 
 2. Set virtual enviroment (recommended)
