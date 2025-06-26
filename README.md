@@ -20,7 +20,7 @@ Before you begin, ensure you have the following installed:
 1. Clone repo
 git clone https://github.com/Haze-me/restful_api_design.git
 
-cd AIPROJECT
+   cd restful_api_design
 
 2. Set virtual enviroment (recommended)
 ```bash
@@ -64,6 +64,7 @@ The API will be available at http://localhost:8000/api/
 After starting the server, access the interactive documentation:
 
 Swagger UI: http://localhost:8000/api/docs/
+
 ReDoc: http://localhost:8000/api/redoc/
 
 - Access Doc folder for API_DOCUMENTATION
