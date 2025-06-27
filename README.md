@@ -107,6 +107,16 @@ source venv/bin/activate
    ```
 
 
+# Code Test
+
+To run tests with coverage:
+```bash
+coverage run manage.py test
+coverage html
+```
+- Then it going generate a folder called 'htmlcov' in the root directory, in there you can run it as html in your browser
+
+
 ## API Documentation:
 After starting the server, access the interactive documentation:
 
@@ -145,7 +155,7 @@ pm.test("Task created", () => {
 ### 1.Authentication Workflow
 
 1.1 Register New User
-```http
+```
 POST {{base_url}}/auth/register/
 Content-Type: application/json
 ```
@@ -161,7 +171,7 @@ Content-Type: application/json
 
 
 1.2 Login & Get Tokens
-```http
+```
 POST {{base_url}}/auth/token/
 Content-Type: application/json
 ```
@@ -175,7 +185,7 @@ Content-Type: application/json
 
 1.3 Refresh Access Token
 
-```http
+```
 POST {{base_url}}/auth/token/refresh/
 Content-Type: application/json
 ```
@@ -189,7 +199,7 @@ Content-Type: application/json
 
 2.1 Create New Task
 
-```http
+```
 POST {{base_url}}/tasks/
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -204,13 +214,13 @@ Content-Type: application/json
 ```
 
 2.2 Get All Tasks
-```http
+```
 GET {{base_url}}/tasks/
 Authorization: Bearer {{access_token}}
 ```
 
 2.3 Update Task
-```http
+```
 PATCH {{base_url}}/tasks/{{task_id}}/
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -222,7 +232,7 @@ Content-Type: application/json
 ```
 
 2.4 Delete Task
-```http
+```
 DELETE {{base_url}}/tasks/{{task_id}}/
 Authorization: Bearer {{access_token}}
 ```
@@ -230,7 +240,7 @@ Authorization: Bearer {{access_token}}
 ## 3. Error Testing
 
 3.1 Invalid Credentials
-```http
+```
 POST {{base_url}}/auth/token/
 Content-Type: application/json
 ```
@@ -245,7 +255,7 @@ Expected: 401 Unauthorized
 
 3.2 Missing Authentication:
 
-```http
+```
 GET {{base_url}}/tasks/
 ```
 
@@ -253,7 +263,7 @@ Expected: 401 Unauthorized
 
 
 4.3 Invalid Task Data
-```http
+```
 POST {{base_url}}/tasks/
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -336,12 +346,3 @@ Negative Flow:
 - Update Non-Existent Task → 404
 
 
-
-## Testing
-
-To run tests with coverage:
-```bash
-coverage run manage.py test
-coverage html
-```
-- Then it going generate a folder called 'htmlcov' in the root directory, in there you can run it as html in your browser
