@@ -1,10 +1,11 @@
 
-# Task Manager API - Postman Testing Guide
+# Task Manager API - Postman Testing Guide:
 
 
 ### Environment Setup
 
 ## Create a new environment in Postman named "Task Manager API"
+
 - Add these variables:
    ```plaintext
    base_url = http://localhost:8000/api
@@ -14,12 +15,11 @@
 ## Tests/Scripts Tab:
 - add this javascript:
 
-```pm.test("Store tokens", () => {
-    const jsonData = pm.response.json();
-    pm.expect(jsonData.access).to.be.a('string');
-    pm.environment.set("access_token", jsonData.access);
-    pm.environment.set("refresh_token", jsonData.refresh);
-});```
+``pm.test("Task created", () => {
+    pm.response.to.have.status(201);
+    const taskId = pm.response.json().data.id;
+    pm.environment.set("task_id", taskId);
+});``
 
 
 ### 1.Authentication Workflow
@@ -33,7 +33,7 @@ Content-Type: application/json
   "username": "testuser",
   "email": "test@example.com",
   "password": "testpass123",
-  "password2": "testpass123"
+  "password2": "testpass1234"
 }
 
 
@@ -45,7 +45,7 @@ Content-Type: application/json
 
 {
   "email": "test@example.com",
-  "password": "testpass123"
+  "password": "testpass1234"
 }
 
 
@@ -156,12 +156,12 @@ Add requests in this order:
 
 - Add this javascript at the test or scripts tap;
 
-```pm.test("Status code is 200", () => pm.response.to.have.status(200));
+``pm.test("Status code is 200", () => pm.response.to.have.status(200));
 pm.test("Response has tokens", () => {
     const jsonData = pm.response.json();
     pm.expect(jsonData.access).to.be.a('string');
     pm.expect(jsonData.refresh).to.be.a('string');
-});```
+});``
 
 
 6. Common Issues & Solutions
@@ -174,6 +174,7 @@ Issue	Solution
 ## Full Test Scenario
 
 Positive Flow:
+
 - Register → 201
 
 - Login → 200 (store tokens)
@@ -189,6 +190,7 @@ Positive Flow:
 - Verify Deletion → 200 (empty list)
 
 Negative Flow:
+
 - Invalid Registration → 400
 
 - Wrong Login → 401
