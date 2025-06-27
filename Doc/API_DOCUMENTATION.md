@@ -15,11 +15,13 @@
 ## Tests/Scripts Tab:
 - add this javascript:
 
-``pm.test("Task created", () => {
+```json
+pm.test("Task created", () => {
     pm.response.to.have.status(201);
     const taskId = pm.response.json().data.id;
     pm.environment.set("task_id", taskId);
-});``
+});
+```
 
 
 ### 1.Authentication Workflow
@@ -29,13 +31,14 @@ http
 POST {{base_url}}/auth/register/
 Content-Type: application/json
 
+```json
 {
   "username": "testuser",
   "email": "test@example.com",
   "password": "testpass123",
   "password2": "testpass1234"
 }
-
+```
 
 
 1.2 Login & Get Tokens
@@ -43,11 +46,12 @@ http
 POST {{base_url}}/auth/token/
 Content-Type: application/json
 
+```json
 {
   "email": "test@example.com",
   "password": "testpass1234"
 }
-
+```
 
 1.3 Refresh Access Token
 
@@ -55,10 +59,11 @@ http
 POST {{base_url}}/auth/token/refresh/
 Content-Type: application/json
 
+```json
 {
   "refresh": "{{refresh_token}}"
 }
-
+```
 
 ### 2.Task Management
 
@@ -69,13 +74,14 @@ POST {{base_url}}/tasks/
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
+```json
 {
   "title": "Complete Postman testing",
   "description": "Write all test cases",
   "status": "todo",
   "due_date": "2025-12-31T23:59:00Z"
 }
-
+```
 
 2.2 Get All Tasks
 http
@@ -89,10 +95,11 @@ PATCH {{base_url}}/tasks/{{task_id}}/
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
+```json
 {
   "status": "in_progress"
 }
-
+```
 
 2.4 Delete Task
 http
@@ -107,11 +114,12 @@ http
 POST {{base_url}}/auth/token/
 Content-Type: application/json
 
+```json
 {
   "email": "wrong@example.com",
   "password": "wrongpass"
 }
-
+```
 Expected: 401 Unauthorized
 
 3.2 Missing Authentication
@@ -127,10 +135,12 @@ POST {{base_url}}/tasks/
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
+```json
 {
   "title": "",
   "status": "invalid_status"
 }
+```
 Expected: 400 Bad Request
 
 
@@ -156,12 +166,14 @@ Add requests in this order:
 
 - Add this javascript at the test or scripts tap;
 
-``pm.test("Status code is 200", () => pm.response.to.have.status(200));
+```json
+pm.test("Status code is 200", () => pm.response.to.have.status(200));
 pm.test("Response has tokens", () => {
     const jsonData = pm.response.json();
     pm.expect(jsonData.access).to.be.a('string');
     pm.expect(jsonData.refresh).to.be.a('string');
-});``
+});
+```
 
 
 6. Common Issues & Solutions
