@@ -49,14 +49,6 @@ Response:
 
 ## Creating Task
 
-## `GET /api/tasks/`
-- List all tasks for a user (authenticated user only).
-
-Query Params:
-- status: Filter by status (todo/in_progress/done)
-- due_date_from: Filter by start date
-- due_date_to: Filter by end date
-
 ## `POST /api/tasks/`
 - To Create a new task.
 
@@ -84,6 +76,16 @@ Response:
         "updated_at": "2025-06-26T02:40:38.924324Z"
     }
 }
+
+
+## `GET /api/tasks/`
+- List all tasks for a user (authenticated user only).
+
+Query Params:
+- status: Filter by status (todo/in_progress/done)
+- due_date_from: Filter by start date
+- due_date_to: Filter by end date
+
 
 
 ## `PUT /api/tasks/{id}/`
