@@ -114,7 +114,7 @@ Swagger UI: http://localhost:8000/api/docs/
 
 ReDoc: http://localhost:8000/api/redoc/
 
-- Access Doc folder for API_DOCUMENTATION
+- For guide on how to test the `API` using `POSTMAN` Access Doc folder for API_DOCUMENTATION
 
 ## Testing
 - Access Doc folder for TESTING on how to run test and code coverage

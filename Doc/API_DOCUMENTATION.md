@@ -1,129 +1,199 @@
 
-# API Endpoints
+# Task Manager API - Postman Testing Guide
 
 
-## Authentication
-### `POST /api/auth/register/`
-- To Register a new user.
+### Environment Setup
 
-Request Body:
+## Create a new environment in Postman named "Task Manager API"
+- Add these variables:
+   ```plaintext
+   base_url = http://localhost:8000/api
+   access_token = {{leave empty}}
+   refresh_token = {{leave empty}}
+
+## Tests/Scripts Tab:
+- add this javascript:
+
+```pm.test("Store tokens", () => {
+    const jsonData = pm.response.json();
+    pm.expect(jsonData.access).to.be.a('string');
+    pm.environment.set("access_token", jsonData.access);
+    pm.environment.set("refresh_token", jsonData.refresh);
+});```
+
+
+### 1.Authentication Workflow
+
+1.1 Register New User
+http
+POST {{base_url}}/auth/register/
+Content-Type: application/json
 
 {
-  "username": "string",
-  "email": "string",
-  "password": "string",
-  "password2": "string"
-}
-
-Response
-
-{
-    "success": true,
-    "status_code": 201,
-    "message": "Success",
-    "data": {
-        "id": 3,
-        "username": "test123",
-        "email": "test@gmail.com",
-        "bio": null,
-        "date_joined": "2025-06-26T02:36:09.284826Z"
-    }
-}
-
-## `POST /api/auth/token/` 
-- To Login and obtain JWT tokens.
-
-Request Body:
-{
-  "email": "test@gmail.com",
-  "password": "test123"
-}
-
-Response:
-{
-  "access": "string",
-  "refresh": "string",
-  "user": { /* user data */ } 
-  // NB: it will generate an access_token, for user authentication
-}
-
-## Creating Task
-
-## `POST /api/tasks/`
-- To Create a new task.
-
-Request Body:
-{
-  "title": "string",
-  "description": "string",
-  "status": "string",
-  "due_date": "ISO8601"
-}
-
-Response:
-{
-    "success": true,
-    "status_code": 201,
-    "message": "Success",
-    "data": {
-        "id": 3,
-        "title": "Testing some codes project",
-        "description": "Done doing it",
-        "status": "todo",
-        "due_date": "2027-11-11T00:00:00Z",
-        "user": 3,
-        "created_at": "2025-06-26T02:40:38.924287Z",
-        "updated_at": "2025-06-26T02:40:38.924324Z"
-    }
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "testpass123",
+  "password2": "testpass123"
 }
 
 
-## `GET /api/tasks/`
-- List all tasks for a user (authenticated user only).
 
-Query Params:
-- status: Filter by status (todo/in_progress/done)
-- due_date_from: Filter by start date
-- due_date_to: Filter by end date
+1.2 Login & Get Tokens
+http
+POST {{base_url}}/auth/token/
+Content-Type: application/json
 
-
-
-## `PUT /api/tasks/{id}/`
-- To Update task.
-
-Request Body:
 {
-    "title": "Updated Task Title",
-    "description": "codes working fine now",
-    "status": "done",
-    "due_date": "2025-09-15"
+  "email": "test@example.com",
+  "password": "testpass123"
 }
 
-Response:
+
+1.3 Refresh Access Token
+
+http
+POST {{base_url}}/auth/token/refresh/
+Content-Type: application/json
+
 {
-    "success": true,
-    "status_code": 200,
-    "message": "Success",
-    "data": {
-        "id": 3,
-        "title": "Updated Task Title",
-        "description": "codes working fine now",
-        "status": "done",
-        "due_date": "2025-09-15T00:00:00Z",
-        "user": 3,
-        "created_at": "2025-06-26T02:40:38.924287Z",
-        "updated_at": "2025-06-26T11:31:43.157194Z"
-    }
+  "refresh": "{{refresh_token}}"
 }
 
-## `DELETE /api/tasks/{id}/`
-- To Delete task:
 
+### 2.Task Management
 
-Response:
+2.1 Create New Task
+
+http
+POST {{base_url}}/tasks/
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
 {
-    "success": true,
-    "status_code": 200,
-    "message": "Task deleted successfully",
-    "data": null
+  "title": "Complete Postman testing",
+  "description": "Write all test cases",
+  "status": "todo",
+  "due_date": "2025-12-31T23:59:00Z"
 }
+
+
+2.2 Get All Tasks
+http
+GET {{base_url}}/tasks/
+Authorization: Bearer {{access_token}}
+
+
+2.3 Update Task
+http
+PATCH {{base_url}}/tasks/{{task_id}}/
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "status": "in_progress"
+}
+
+
+2.4 Delete Task
+http
+DELETE {{base_url}}/tasks/{{task_id}}/
+Authorization: Bearer {{access_token}}
+
+
+## 3. Error Testing
+
+3.1 Invalid Credentials
+http
+POST {{base_url}}/auth/token/
+Content-Type: application/json
+
+{
+  "email": "wrong@example.com",
+  "password": "wrongpass"
+}
+
+Expected: 401 Unauthorized
+
+3.2 Missing Authentication
+http
+GET {{base_url}}/tasks/
+
+Expected: 401 Unauthorized
+
+
+4.3 Invalid Task Data
+http
+POST {{base_url}}/tasks/
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "title": "",
+  "status": "invalid_status"
+}
+Expected: 400 Bad Request
+
+
+### Test Automation
+# Collection Runner Setup
+Create new collection "Task Manager Tests"
+
+Add requests in this order:
+
+- Register
+
+- Login
+
+- Get Tasks
+
+- Update Task
+
+- Delete Task
+
+- Set delay between requests: 300ms
+
+### Test/scrips Script Examples For Login Request:
+
+- Add this javascript at the test or scripts tap;
+
+```pm.test("Status code is 200", () => pm.response.to.have.status(200));
+pm.test("Response has tokens", () => {
+    const jsonData = pm.response.json();
+    pm.expect(jsonData.access).to.be.a('string');
+    pm.expect(jsonData.refresh).to.be.a('string');
+});```
+
+
+6. Common Issues & Solutions
+Issue	Solution
+- 401 Errors	Verify tokens are set in environment
+- 500 Errors	Check server logs for exceptions
+- Connection Refused	Ensure Django server is running
+- Invalid Date Format	Use ISO8601: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ 
+
+## Full Test Scenario
+
+Positive Flow:
+- Register → 201
+
+- Login → 200 (store tokens)
+
+- Create Task → 201 (store task_id)
+
+- List Tasks → 200 (verify presence)
+
+- Update Task → 200
+
+- Delete Task → 200
+
+- Verify Deletion → 200 (empty list)
+
+Negative Flow:
+- Invalid Registration → 400
+
+- Wrong Login → 401
+
+- Create Task Unauthenticated → 401
+
+- Update Non-Existent Task → 404
+
