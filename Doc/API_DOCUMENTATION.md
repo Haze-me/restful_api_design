@@ -1,11 +1,13 @@
 
 # API Endpoints
+
+
 ## Authentication
 ### `POST /api/auth/register/`
-Register a new user.
+- To Register a new user.
 
-**Request Body:**
-```json
+Request Body:
+
 {
   "username": "string",
   "email": "string",
@@ -13,8 +15,8 @@ Register a new user.
   "password2": "string"
 }
 
-**Response**
-```json
+Response
+
 {
     "success": true,
     "status_code": 201,
@@ -29,7 +31,7 @@ Register a new user.
 }
 
 ## `POST /api/auth/token/` 
-Obtain JWT tokens.
+- To Login and obtain JWT tokens.
 
 Request Body:
 {
@@ -45,10 +47,10 @@ Response:
   // NB: it will generate an access_token, for user authentication
 }
 
-## Tasks
+## Creating Task
 
 ## `GET /api/tasks/`
-List all tasks (authenticated users only).
+- List all tasks for a user (authenticated user only).
 
 Query Params:
 - status: Filter by status (todo/in_progress/done)
@@ -56,7 +58,7 @@ Query Params:
 - due_date_to: Filter by end date
 
 ## `POST /api/tasks/`
-Create new task.
+- To Create a new task.
 
 Request Body:
 {
@@ -85,7 +87,7 @@ Response:
 
 
 ## `PUT /api/tasks/{id}/`
-Update task.
+- To Update task.
 
 Request Body:
 {
@@ -113,7 +115,7 @@ Response:
 }
 
 ## `DELETE /api/tasks/{id}/`
-Delete task:
+- To Delete task:
 
 
 Response:
