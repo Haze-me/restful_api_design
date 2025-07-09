@@ -4,7 +4,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Production branch
+      - master  # Production branch
     paths-ignore:
       - 'README.md'
 
