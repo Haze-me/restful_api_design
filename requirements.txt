@@ -4,9 +4,10 @@ Django==5.2
 djangorestframework==3.14.0
 python-dotenv==1.0.0
 
-#Database
+# Database
 dj-database-url==3.0.0
 django-filter==25.1
+psycopg2-binary==2.9.7  # PostgreSQL adapter
 
 # Authentication
 djangorestframework_simplejwt==5.5.0
@@ -19,3 +20,5 @@ drf-spectacular-sidecar==2023.5.1
 # CORS (Updated version)
 django-cors-headers==4.4.0  # More Windows-friendly
 
+# WSGI Server
+gunicorn==20.1.0  # Production server

@@ -1,3 +1,4 @@
+
 name: CI/CD Pipeline
 
 on:
@@ -37,22 +38,22 @@ jobs:
             DATABASE_URL=${{ env.RDS_URL }}
             SECRET_KEY=${{ env.SECRET_KEY }}
 
-      - name: Clone ArgoCD repository
-        uses: actions/checkout@v3
-        with:
-          repository: Haze-me/argocd
-          token: ${{ secrets.CHECKOUT_TOKEN }}
-          path: tescomp
+    #   - name: Clone ArgoCD repository
+    #     uses: actions/checkout@v3
+    #     with:
+    #       repository: Haze-me/argocd
+    #       token: ${{ secrets.CHECKOUT_TOKEN }#}
+    #       path: tescomp
 
-      - name: Update ArgoCD deployment.yaml
-        run: |
-          sed -i "s|image: .*$|image: $IMAGE_NAME:$IMAGE_TAG|g" ninety/ninety/django-auth.yaml
+    #   - name: Update ArgoCD deployment.yaml
+    #     run: |
+    #       sed -i "s|image: .*$|image: $IMAGE_NAME:$IMAGE_TAG|g" ninety/ninety/django-auth.yaml
 
-      - name: Commit and push changes to ArgoCD repo
-        run: |
-          cd tescomp
-          git config --global user.email "chriscrsov@gmail.com"
-          git config --global user.name "chriscrsov"
-          git add tescomp/django-auth.yaml
-          git commit -m "Update image tag to $IMAGE_TAG"
-          git push
+    #   - name: Commit and push changes to ArgoCD repo
+    #     run: |
+    #       cd tescomp
+    #       git config --global user.email "chriscrsov@gmail.com"
+    #       git config --global user.name "chriscrsov"
+    #       git add tescomp/django-auth.yaml
+    #       git commit -m "Update image tag to $IMAGE_TAG"
+    #       git push
