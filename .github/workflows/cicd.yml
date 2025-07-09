@@ -38,6 +38,7 @@ jobs:
             DATABASE_URL=${{ env.RDS_URL }}
             SECRET_KEY=${{ env.SECRET_KEY }}
 
+
     #   - name: Clone ArgoCD repository
     #     uses: actions/checkout@v3
     #     with:
