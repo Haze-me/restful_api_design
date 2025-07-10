@@ -111,13 +111,13 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
                 serializer.save()
                 return success_response(data=serializer.data)
             return error_response(
-                message="Validation error",
+                message="Validation error during patch",
                 data=serializer.errors,
                 status_code=status.HTTP_400_BAD_REQUEST
             )
         except Http404:
             return error_response(
-                message="Task not found",
+                message="Task not found in the database",
                 status_code=status.HTTP_404_NOT_FOUND
             )
 
@@ -125,7 +125,7 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
         try:
             instance = self.get_object()
             instance.delete()
-            return success_response(message="Task deleted successfully")
+            return success_response(message="Tasked deleted successfully")
         except Http404:
             return error_response(
                 message="Task not found",
